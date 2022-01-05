@@ -7,7 +7,9 @@
 
 import http from "http";
 import debugModule from "debug";
+
 import app from "../app";
+import connectDatabase from "../database/connectDatabase";
 
 const debug = debugModule.debug("backend:server");
 
@@ -23,14 +25,22 @@ app.set("port", port);
  */
 
 const server = http.createServer(app);
+console.log("Creating server")
 
-/**
- * Listen on provided port, on all network interfaces.
+/** 
+ * connect database 
  */
 
-server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
+connectDatabase().then(() => {
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+
+  server.listen(port);
+  server.on("error", onError);
+  server.on("listening", onListening);
+  console.log(`Listenning port ${port}`)
+});
 
 /**
  * Normalize a port into a number, string, or false.

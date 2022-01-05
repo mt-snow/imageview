@@ -1,9 +1,10 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
+import { list, get } from "../controllers/images"
 
 const router = Router();
 
-router.get("/", (req: Request, res: Response) => {
-  res.send("respond with a resource");
-});
+router.get("/", list)
+router.get("/image", list);
+router.get("/image/:id", get);
 
 export default router;
